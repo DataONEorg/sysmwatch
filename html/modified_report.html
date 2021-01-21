@@ -43,11 +43,15 @@
       ele.innerText = moment(report.t_modified_since).format();
       hot.render();
 
+      ele = document.getElementById('report_updating');
+      ele.innerText = "";
       // Set a timeout to refresh after a minute
       setTimeout(refreshData, 60000);
     }
 
     function refreshData() {
+      var ele = document.getElementById('report_updating');
+      ele.innerText = "Refreshing...";
       fetch(source_url)
         .then(response => response.json())
         .then(data => refreshRender(data))
@@ -120,7 +124,8 @@
 </head>
 <body>
 <div>
-  <p>Reporting on modified since: <span id="report_since"></span> | Report updated: <span id="report_t"></span></p>
+  <p>Reporting on modified since: <span id="report_since"></span> | Report updated: <span id="report_t"></span>
+    <span id="report_updating"></span></p>
 </div>
 <div id="report"></div>
 <script>
