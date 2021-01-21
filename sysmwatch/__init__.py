@@ -7,7 +7,7 @@ import dateparser
 
 METACAT_DB = "metacat"
 METACAT_HOST = "localhost"
-METACAT_PORT = 5433
+METACAT_PORT = 5432
 MAX_ROWS = 5000
 ID_COLUMN = 0
 MODIFIED_COLUMN = 1
