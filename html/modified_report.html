@@ -34,6 +34,25 @@
     }
     Handsontable.renderers.registerRenderer('redRowRenderer', redRowRenderer);
 
+    function refreshRender(data) {
+      console.log("Refreshing report...")
+      report = data;
+      var ele = document.getElementById('report_t');
+      ele.innerText = moment(report.t_created).format() + ', ' + moment(report.t_created).fromNow();
+      ele = document.getElementById('report_since');
+      ele.innerText = moment(report.t_modified_since).format();
+      hot.render();
+
+      // Set a timeout to refresh after a minute
+      setTimeout(refreshData, 60000);
+    }
+
+    function refreshData() {
+      fetch(source_url)
+        .then(response => response.json())
+        .then(data => refreshRender(data))
+    }
+
     function renderData(data) {
       report = data;
       var ele = document.getElementById('report_t');
@@ -89,6 +108,7 @@
           return cellProperties;
         }
       });
+      setTimeout(refreshData, 60000);
     }
 
     function loadData() {
