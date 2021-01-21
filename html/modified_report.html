@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modified Content Report</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cousine&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handsontable@8.2.0/dist/handsontable.full.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/handsontable@8.2.0/dist/handsontable.full.min.css" rel="stylesheet" media="screen">
+  <style>
+  body {
+    font-family: Cousine, monospace;
+    font-size: 12px;
+  }
+  .make-me-red {
+    color: #f00;
+  }
+  </style>
+
+  <script>
+    var source_url="https://cn-ucsb-1.dataone.org/modified_report.json";
+    var container = null;
+    var hot = null;
+    var report = null;
+
+    function redRowRenderer(instance, td, row, col, prop, value, cellProperties) {
+      Handsontable.renderers.TextRenderer.apply(this, arguments);
+      td.className = "make-me-red";
+      //if (!report.records[row-1][0]) {
+      //if (!instance.getData(row-1, 0)) {
+      //  td.className= 'make-me-red';
+      //}
+    }
+    Handsontable.renderers.registerRenderer('redRowRenderer', redRowRenderer);
+
+    function renderData(data) {
+      report = data;
+      var ele = document.getElementById('report_t');
+      ele.innerText = moment(report.t_created).format() + ', ' + moment(report.t_created).fromNow();
+      ele = document.getElementById('report_since');
+      ele.innerText = moment(report.t_modified_since).format();
+      container = document.getElementById('report');
+      hot = new Handsontable(container, {
+        licenseKey: "non-commercial-and-evaluation",
+        data: report.records,
+        rowHeaders: true,
+        colHeaders: ["Indexed","PID","IdxModified","Modified","Uploaded","Source","Format"],
+        columns: [
+          {
+            data: 'ok',
+            readOnly: true
+          },
+          {
+            data: 'pid',
+            readOnly: true
+          },
+          {
+            data: 't_modified_idx',
+            readOnly: true
+          },
+          {
+            data: 't_modified',
+            readOnly: true
+          },
+          {
+            data: 't_uploaded',
+            readOnly: true
+          },
+          {
+            data: 'origin_mn',
+            readOnly: true
+          },
+          {
+            data: 'format_id',
+            readOnly: true
+          }
+        ],
+        columnSorting: true,
+        cells: function (row, col) {
+          var cellProperties = {};
+          var _data = this.instance.getData();
+          //var _data = report.records;
+          if (_data[row]) {
+            if (!_data[row][0]) {
+              cellProperties.renderer = "redRowRenderer"; // uses lookup map
+            }
+          }
+          return cellProperties;
+        }
+      });
+    }
+
+    function loadData() {
+      fetch(source_url)
+        .then(response => response.json())
+        .then(data => renderData(data))
+    }
+  </script>
+</head>
+<body>
+<div>
+  <p>Reporting on modified since: <span id="report_since"></span> | Report updated: <span id="report_t"></span></p>
+</div>
+<div id="report"></div>
+<script>
+  loadData();
+</script>
+</body>
+</html>
