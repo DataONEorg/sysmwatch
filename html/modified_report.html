@@ -73,7 +73,7 @@
         columns: [
           {
             data: 'ok',
-            readOnly: true
+            readOnly: true,
           },
           {
             data: 'pid',
@@ -100,6 +100,10 @@
             readOnly: true
           }
         ],
+        hiddenColumns: {
+          columns: [0],
+          indicators: true
+        },
         columnSorting: true,
         cells: function (row, col) {
           var cellProperties = {};
