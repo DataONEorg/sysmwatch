@@ -41,6 +41,7 @@
       ele.innerText = moment(report.t_created).format() + ', ' + moment(report.t_created).fromNow();
       ele = document.getElementById('report_since');
       ele.innerText = moment(report.t_modified_since).format();
+      hot.loadData(report.records);
       hot.render();
 
       ele = document.getElementById('report_updating');
