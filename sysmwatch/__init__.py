@@ -184,22 +184,24 @@ def generateReport(conn, modified_since):
     session = requests.Session()
     idx_records = getIndexDocs(session, pids)
     #First record in response is newest
-    t_oldest = sysm_records[0][MODIFIED_COLUMN]
-    for rec in sysm_records:
-        r = record_template.copy()
-        r['pid'] = rec[ID_COLUMN]
-        r['t_modified'] = rec[MODIFIED_COLUMN]
-        r['t_uploaded'] = rec[UPLOADED_COLUMN]
-        r['origin_mn'] = rec[ORIGIN_COLUMN]
-        r['format_id'] = rec[FORMAT_COLUMN]
-        doc = getIdxDoc(r['pid'], idx_records)
-        if doc is not None:
-            r['t_modified_idx'] = doc['dateModified']
-            if r['t_modified'] == r['t_modified_idx']:
-                r['ok'] = True
-        if not r['ok']:
-            if r['t_modified'] < t_oldest:
-                t_oldest = r['t_modified']
-        report['records'].append(r)
+    t_oldest = modified_since
+    if len(sysm_records) > 0:
+        t_oldest = sysm_records[0][MODIFIED_COLUMN]
+        for rec in sysm_records:
+            r = record_template.copy()
+            r['pid'] = rec[ID_COLUMN]
+            r['t_modified'] = rec[MODIFIED_COLUMN]
+            r['t_uploaded'] = rec[UPLOADED_COLUMN]
+            r['origin_mn'] = rec[ORIGIN_COLUMN]
+            r['format_id'] = rec[FORMAT_COLUMN]
+            doc = getIdxDoc(r['pid'], idx_records)
+            if doc is not None:
+                r['t_modified_idx'] = doc['dateModified']
+                if r['t_modified'] == r['t_modified_idx']:
+                    r['ok'] = True
+            if not r['ok']:
+                if r['t_modified'] < t_oldest:
+                    t_oldest = r['t_modified']
+            report['records'].append(r)
     report['t_oldest_bad'] = t_oldest
     return report
