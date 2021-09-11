@@ -65,7 +65,6 @@
       ele.innerText = moment(report.t_created).format() + ', ' + moment(report.t_created).fromNow();
       ele = document.getElementById('report_since');
       ele.innerText = moment(report.t_modified_since).format();
-      document.getElementById("report_count").innerText = len(report.records);
       container = document.getElementById('report');
       hot = new Handsontable(container, {
         licenseKey: "non-commercial-and-evaluation",
