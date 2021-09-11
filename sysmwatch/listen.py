@@ -6,7 +6,7 @@ import pgnotify
 def getLogger():
     return logging.getLogger("listen")
 
-DB_URI = "postgresql://dataone_readonly:b6-7-CYTq7b@localhost:5433/metacat"
+DB_URI = "postgresql://USER:PASS@localhost:5433/metacat"
 
 def main():
     L = getLogger()

@@ -3,7 +3,7 @@ import logging
 import json
 import pika
 
-R_URI = "amqp://sysmwatch:watch5432@localhost:5672/%2F"
+R_URI = "amqp://USER:PASS@localhost:5672/%2F"
 
 def getLogger():
     return logging.getLogger("listenq")

@@ -4,7 +4,7 @@ import fastapi_websocket_pubsub
 import signal
 import pgnotify
 
-DB_URI = "postgresql://dataone_readonly:b6-7-CYTq7b@localhost:5433/metacat"
+DB_URI = "postgresql://USER:PASS@localhost:5433/metacat"
 
 app = fastapi.FastAPI()
 
