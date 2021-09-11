@@ -6,13 +6,19 @@ authors = ["datadavev <datadavev@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.9"
 psycopg2-binary = "^2.8.6"
 click = "^7.1.2"
 requests = "^2.25.1"
 dateparser = "^1.0.0"
 progress = "^1.5"
 ojson = "^0.1.0"
+pgnotify = "^0.1.1561372201"
+fastapi = "^0.65.2"
+uvicorn = "^0.14.0"
+websockets = "^9.1"
+fastapi-websocket-pubsub = "^0.1.18"
+pika = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 
