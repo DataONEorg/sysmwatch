@@ -41,6 +41,7 @@
       ele.innerText = moment(report.t_created).format() + ', ' + moment(report.t_created).fromNow();
       ele = document.getElementById('report_since');
       ele.innerText = moment(report.t_modified_since).format();
+      document.getElementById("report_count").innerText = len(report.records);
       hot.loadData(report.records);
       hot.render();
 
@@ -69,7 +70,10 @@
         licenseKey: "non-commercial-and-evaluation",
         data: report.records,
         rowHeaders: true,
+        autoRowSize: false,
+        autoColumnSize: false,
         colHeaders: ["Indexed","PID","IdxModified","Modified","Uploaded","Source","Format"],
+        colWidths: [50,400,200,200,200,200,400],
         columns: [
           {
             data: 'ok',
@@ -129,7 +133,7 @@
 </head>
 <body>
 <div>
-  <p>Reporting on modified since: <span id="report_since"></span> | Report updated: <span id="report_t"></span>
+  <p>Reporting on modified since: <span id="report_since"></span>, <span id="report_count">0</span> records | Report updated: <span id="report_t"></span>
     <span id="report_updating"></span></p>
 </div>
 <div id="report"></div>
